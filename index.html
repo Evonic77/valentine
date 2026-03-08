@@ -1,126 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dangerous Version</title>
+<title>Valentine</title>
 <style>
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background: #ffe6f0;
-    overflow: hidden;
-    position: relative;
-  }
+body{
+  background:#ffc0cb;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  font-family:Arial;
+  overflow:hidden;
+}
 
-  h1 {
-    text-align: center;
-    color: #ff3366;
-    margin-bottom: 40px;
-  }
+.box{
+  background:white;
+  padding:40px;
+  border-radius:20px;
+  text-align:center;
+  position:relative;
+}
 
-  .buttons {
-    display: flex;
-    gap: 20px;
-  }
+/* Cute cat */
+.cat-img{
+  width:100px;
+  margin-bottom:15px;
+  transition: transform 0.3s;
+}
 
-  button {
-    padding: 20px 40px;
-    font-size: 1.5rem;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
+/* Floating hearts */
+.heart {
+  position:absolute;
+  font-size:30px;
+  color:red;
+  animation: floatUp 1.5s ease-out forwards;
+}
 
-  #yes {
-    background: #ff66aa;
-    color: white;
-    box-shadow: 0 5px 15px rgba(255,0,128,0.4);
-  }
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(1); opacity:1; }
+  50% { transform: translateY(-80px) scale(1.5); opacity:0.7; }
+  100% { transform: translateY(-150px) scale(0); opacity:0; }
+}
 
-  #yes:hover {
-    transform: scale(1.2) rotate(-5deg);
-  }
+button{
+  padding:12px 30px;
+  font-size:18px;
+  border:none;
+  border-radius:25px;
+  margin:10px;
+  cursor:pointer;
+}
 
-  #no {
-    background: #aaa;
-    color: #666;
-    pointer-events: none; /* no button not clickable */
-  }
+#yes{
+  background:#ff2d7a;
+  color:white;
+}
 
-  /* Heart animation */
-  .heart {
-    position: absolute;
-    font-size: 24px;
-    color: red;
-    animation: floatUp 2s linear forwards;
-  }
+#no{
+  background:#ddd;
+  position:absolute;
+}
 
-  @keyframes floatUp {
-    0% {opacity:1; transform: translateY(0) scale(1);}
-    100% {opacity:0; transform: translateY(-150px) scale(1.5);}
-  }
-
-  /* Cute cat in corner */
-  .cat {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    width: 120px;
-    animation: bounce 2s infinite;
-  }
-
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0);}
-    50% { transform: translateY(-20px);}
-  }
-
-  @media (max-width: 600px) {
-    button {
-      padding: 15px 30px;
-      font-size: 1.2rem;
-    }
-
-    .cat {
-      width: 80px;
-    }
-  }
+#text{
+  margin-bottom:20px;
+  font-size:20px;
+}
 </style>
 </head>
 <body>
 
-<div>
-  <h1>Will you click Yes? 💖</h1>
-  <div class="buttons">
-    <button id="yes">YES 😺</button>
-    <button id="no">NO</button>
-  </div>
+<div class="box">
+  <!-- Cute cat -->
+  <img src="https://i.postimg.cc/KvQY8v1Z/cute-cat.png" class="cat-img" id="cat" alt="Cute Cat">
+  
+  <h2 id="text">শশী, তুমি কি তোমার বাপের সব সম্পত্তি তোমার আদরের জামাইকে গিফট দেওয়ার ব্যবস্থা করবা?</h2>
+  <button id="yes">Yes</button>
+  <button id="no">No</button>
 </div>
 
-<!-- Cute cat image -->
-<img class="cat" src="https://i.imgur.com/1cXH6E3.png" alt="Cute Cat">
-
 <script>
-  const yesButton = document.getElementById('yes');
+let no = document.getElementById("no");
+let yes = document.getElementById("yes");
+let text = document.getElementById("text");
+let cat = document.getElementById("cat");
 
-  // Create heart on click
-  yesButton.addEventListener('click', (e) => {
-    const heart = document.createElement('div');
-    heart.classList.add('heart');
-    heart.textContent = '💖';
-    heart.style.left = (e.clientX - 12) + 'px';
-    heart.style.top = (e.clientY - 12) + 'px';
+// No button runs away
+no.addEventListener("mouseover", moveNo);
+no.addEventListener("touchstart", moveNo);
+
+function moveNo(){
+  let x = Math.random() * (window.innerWidth - no.offsetWidth - 20);
+  let y = Math.random() * (window.innerHeight - no.offsetHeight - 20);
+  
+  no.style.left = x + "px";
+  no.style.top = y + "px";
+}
+
+// Yes button click → show heart text + floating hearts + cat reaction
+yes.addEventListener("click", function(){
+  text.innerHTML = "Thank u sona😘❤️";
+  
+  // Make 5 floating hearts
+  for(let i=0; i<5; i++){
+    let heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💖";
+    
+    // Random start near Yes button
+    let rect = yes.getBoundingClientRect();
+    heart.style.left = rect.left + (Math.random()*yes.offsetWidth) + "px";
+    heart.style.top = rect.top + "px";
+    
     document.body.appendChild(heart);
-
-    setTimeout(() => {
-      heart.remove();
-    }, 2000);
-  });
+    
+    // Remove after animation
+    setTimeout(() => heart.remove(), 1500);
+  }
+  
+  // Cat "blinks" by scaling
+  cat.style.transform = "scale(1.2)";
+  setTimeout(()=> cat.style.transform = "scale(1)", 300);
+});
 </script>
 
 </body>
