@@ -1,78 +1,126 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Valentine</title>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dangerous Version</title>
 <style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: #ffe6f0;
+    overflow: hidden;
+    position: relative;
+  }
 
-body{
-background:#ffc0cb;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-font-family:Arial;
-}
+  h1 {
+    text-align: center;
+    color: #ff3366;
+    margin-bottom: 40px;
+  }
 
-.box{
-background:white;
-padding:40px;
-border-radius:20px;
-text-align:center;
-}
+  .buttons {
+    display: flex;
+    gap: 20px;
+  }
 
-button{
-padding:12px 30px;
-font-size:18px;
-border:none;
-border-radius:25px;
-margin:10px;
-cursor:pointer;
-}
+  button {
+    padding: 20px 40px;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
 
-#yes{
-background:#ff2d7a;
-color:white;
-}
+  #yes {
+    background: #ff66aa;
+    color: white;
+    box-shadow: 0 5px 15px rgba(255,0,128,0.4);
+  }
 
-#no{
-background:#ddd;
-}
+  #yes:hover {
+    transform: scale(1.2) rotate(-5deg);
+  }
 
+  #no {
+    background: #aaa;
+    color: #666;
+    pointer-events: none; /* no button not clickable */
+  }
+
+  /* Heart animation */
+  .heart {
+    position: absolute;
+    font-size: 24px;
+    color: red;
+    animation: floatUp 2s linear forwards;
+  }
+
+  @keyframes floatUp {
+    0% {opacity:1; transform: translateY(0) scale(1);}
+    100% {opacity:0; transform: translateY(-150px) scale(1.5);}
+  }
+
+  /* Cute cat in corner */
+  .cat {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 120px;
+    animation: bounce 2s infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0);}
+    50% { transform: translateY(-20px);}
+  }
+
+  @media (max-width: 600px) {
+    button {
+      padding: 15px 30px;
+      font-size: 1.2rem;
+    }
+
+    .cat {
+      width: 80px;
+    }
+  }
 </style>
-
 </head>
-
 <body>
 
-<div class="box">
-
-<h2 id="text">Shoshe, তুমি কি তোমার বাপের সব সম্পত্তি কি তোমার আদরের জামাইকে গিফট করার ব্যবস্থা করবে?😘</h2>
-
-<button id="yes">Yes</button>
-<button id="no">No</button>
-
+<div>
+  <h1>Will you click Yes? 💖</h1>
+  <div class="buttons">
+    <button id="yes">YES 😺</button>
+    <button id="no">NO</button>
+  </div>
 </div>
 
+<!-- Cute cat image -->
+<img class="cat" src="https://i.imgur.com/1cXH6E3.png" alt="Cute Cat">
+
 <script>
+  const yesButton = document.getElementById('yes');
 
-let no=document.getElementById("no");
+  // Create heart on click
+  yesButton.addEventListener('click', (e) => {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.textContent = '💖';
+    heart.style.left = (e.clientX - 12) + 'px';
+    heart.style.top = (e.clientY - 12) + 'px';
+    document.body.appendChild(heart);
 
-no.addEventListener("mouseover",function(){
-
-let x=Math.random()*300;
-let y=Math.random()*300;
-
-no.style.position="absolute";
-no.style.left=x+"px";
-no.style.top=y+"px";
-
-});
-
-document.getElementById("yes").onclick=function(){
-document.getElementById("text").innerHTML="Love you bouni😘❤️";
-}
-
+    setTimeout(() => {
+      heart.remove();
+    }, 2000);
+  });
 </script>
 
 </body>
